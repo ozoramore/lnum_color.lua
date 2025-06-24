@@ -66,7 +66,7 @@ local default_opts = {
 
 M.setup = function(opts)
 	
-	local final_opts = vim.tbl.deep_extend("force", default_opts, opts or {})
+	local final_opts = vim.tbl_deep_extend("force", {}, default_opts, opts or {})
 
 
 	set_def_hl(def_hl)
