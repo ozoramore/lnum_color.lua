@@ -7,7 +7,7 @@
 ```lua
 -- lazy.nvim
 {
-    'ozoramore/lnum_color',
+    'ozoramore/lnum_color.lua',
     opts = {
         10, -- interval,
         require('lnum_color').default, -- custom function
