@@ -49,7 +49,7 @@ end
 
 local M = {}
 
-M.default = function(lnum, current_line)
+local default_get_name = function(lnum, current_line)
 	if lnum == current_line then return nil end
 	local range = math.abs(lnum - current_line)
 	if range == 1 then return 'LineNrGroup1' end
@@ -61,7 +61,7 @@ end
 
 local default_opts = {
 	interval = 10,
-	get_name = nil,
+	get_name = default_get_name,
 }
 
 M.setup = function(opts)
