@@ -1,17 +1,17 @@
 local lnum_colors = {
-	["LineNrGroup1"] = "LineNrGroup1",
-	["LineNrGroup2"] = "LineNrGroup2",
-	["LineNrGroup3"] = "LineNrGroup3",
-	["LineNrGroup4"] = "LineNrGroup4",
-	["LineNrInterval"] = "LineNrInterval",
+	['LineNrGroup1'] = 'LineNrGroup1',
+	['LineNrGroup2'] = 'LineNrGroup2',
+	['LineNrGroup3'] = 'LineNrGroup3',
+	['LineNrGroup4'] = 'LineNrGroup4',
+	['LineNrInterval'] = 'LineNrInterval',
 }
 
 local def_hl = {
-	["LineNrGroup1"] = { fg = "yellow" },
-	["LineNrGroup2"] = { fg = "orange" },
-	["LineNrGroup3"] = { fg = "lightred" },
-	["LineNrGroup4"] = { fg = "red" },
-	["LineNrInterval"] = { fg = "lightblue" },
+	['LineNrGroup1'] = { fg = 'yellow' },
+	['LineNrGroup2'] = { fg = 'orange' },
+	['LineNrGroup3'] = { fg = 'lightred' },
+	['LineNrGroup4'] = { fg = 'red' },
+	['LineNrInterval'] = { fg = 'lightblue' },
 }
 
 local function color_def(tbl)
@@ -27,12 +27,12 @@ local set_def_hl = function(tbl)
 end
 
 local set_lnum_colors = function(name, lnum)
-	vim.fn.sign_place(0, "LineNrGroup", name, vim.fn.expand("%p"), { lnum = lnum })
+	vim.fn.sign_place(0, 'LineNrGroup', name, vim.fn.expand('%p'), { lnum = lnum })
 end
 
 local function set_static_sign(interval, lnum)
 	if lnum % interval == 0 then
-		set_lnum_colors("LineNrInterval", lnum)
+		set_lnum_colors('LineNrInterval', lnum)
 	end
 end
 
@@ -65,23 +65,19 @@ local default_opts = {
 }
 
 M.setup = function(opts)
-	
-	local final_opts = vim.tbl_deep_extend("force", {}, default_opts, opts or {})
-
+	local final_opts = vim.tbl_deep_extend('force', {}, default_opts, opts or {})
 
 	set_def_hl(def_hl)
 	color_def(lnum_colors)
 
-	
-
-	local prefunc = function() vim.fn.sign_unplace("LineNrGroup") end
+	local prefunc = function() vim.fn.sign_unplace('LineNrGroup') end
 	local numhl = function(i)
 		if final_opts.interval and final_opts.interval ~= 0 then set_static_sign(final_opts.interval, i) end
 		if final_opts.get_name then set_dynamic_sign(final_opts.get_name, i) end
 	end
 
 	local cb = { callback = function() per_line_exec(numhl, prefunc) end }
-	local event = { "TextChanged", "BufRead", "BufNewFile", "CursorMoved", "CursorMovedI" }
+	local event = { 'TextChanged', 'BufRead', 'BufNewFile', 'CursorMoved', 'CursorMovedI' }
 	vim.api.nvim_create_autocmd(event, cb)
 end
 
