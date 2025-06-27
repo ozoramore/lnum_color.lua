@@ -7,34 +7,34 @@
 ```lua
 -- lazy.nvim
 {
-    'ozoramore/lnum_color.lua',
-    opts = {
-        10, -- interval,
-        require('lnum_color').default, -- custom function
-    }
+    'ozoramore/lnum_color.lua'
 }
 
 -- others
-require('lnum_color').setup(10, require('lnum_color').default)
+require('lnum_color').setup()
 ```
 
-or
+## customize
 
 ```lua
 local function lnumfunc(lnum, current_cursor_line)
     local range = math.abs(lnum - current_cursor_line)
-    if range == 5 then return 'LineNrGroup1' end
-    if range == 10 then return 'LineNrGroup2' end
-    if range == 20 then return 'LineNrGroup2' end
-    if range % 50 == 0 then return 'LineNrGroup3' end
+    if range == 1 then return 'LineNrGroup1' end
+    if range == 2 then return 'LineNrGroup2' end
+    if range == 3 then return 'LineNrGroup3' end
+    if range % 10 == 0 then return 'LineNrGroup4' end
     return nil
 end
 
-require('lnum_color').setup(5, lnumfunc)
-```
+-- lazy.nvim
+{
+    'ozoramore/lnum_color.lua',
+    opts = {
+        interval = 5, --  line number highlight interval( default 10, 0 is disable )
+        get_name = lnumfunc -- customize function( default nil, nil is disable )
+    }
+}
 
-or
-
-```lua
-require('lnum_color').setup(0, nil) -- do nothing.
+-- others
+require('lnum_color').setup({ interval = 5, get_name = lnumfunc })
 ```
