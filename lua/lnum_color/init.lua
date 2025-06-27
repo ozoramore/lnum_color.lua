@@ -59,14 +59,25 @@ M.default = function(lnum, current_line)
 	return nil
 end
 
-M.setup = function(interval, get_name)
+local default_opts = {
+	interval = 10,
+	get_name = nil,
+}
+
+M.setup = function(opts)
+	
+	local final_opts = vim.tbl_deep_extend("force", {}, default_opts, opts or {})
+
+
 	set_def_hl(def_hl)
 	color_def(lnum_colors)
 
+	
+
 	local prefunc = function() vim.fn.sign_unplace("LineNrGroup") end
 	local numhl = function(i)
-		if interval and interval ~= 0 then set_static_sign(interval, i) end
-		if get_name then set_dynamic_sign(get_name, i) end
+		if final_opts.interval and final_opts.interval ~= 0 then set_static_sign(final_opts.interval, i) end
+		if final_opts.get_name then set_dynamic_sign(final_opts.get_name, i) end
 	end
 
 	local cb = { callback = function() per_line_exec(numhl, prefunc) end }
