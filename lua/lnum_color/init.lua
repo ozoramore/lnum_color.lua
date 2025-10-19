@@ -1,12 +1,4 @@
 local lnum_colors = {
-	['LineNrGroup1'] = 'LineNrGroup1',
-	['LineNrGroup2'] = 'LineNrGroup2',
-	['LineNrGroup3'] = 'LineNrGroup3',
-	['LineNrGroup4'] = 'LineNrGroup4',
-	['LineNrInterval'] = 'LineNrInterval',
-}
-
-local def_hl = {
 	['LineNrGroup1'] = { fg = 'yellow' },
 	['LineNrGroup2'] = { fg = 'orange' },
 	['LineNrGroup3'] = { fg = 'lightred' },
@@ -14,14 +6,9 @@ local def_hl = {
 	['LineNrInterval'] = { fg = 'lightblue' },
 }
 
-local function color_def(tbl)
-	for name, text in pairs(tbl) do
-		vim.fn.sign_define(name, { numhl = text })
-	end
-end
-
-local set_def_hl = function(tbl)
+local set_hl = function(tbl)
 	for n, v in pairs(tbl) do
+		vim.fn.sign_define(n, { numhl = n })
 		if vim.fn.hlexists(n) == 0 then vim.api.nvim_set_hl(0, n, v) end
 	end
 end
@@ -57,8 +44,7 @@ local default_opts = {
 M.setup = function(opts)
 	local final_opts = vim.tbl_deep_extend('force', {}, default_opts, opts or {})
 
-	set_def_hl(def_hl)
-	color_def(lnum_colors)
+	set_hl(lnum_colors)
 
 	local prefunc = function() vim.fn.sign_unplace('LineNrGroup') end
 	local numhl = function(i)
