@@ -8,7 +8,7 @@ local lnum_colors = {
 
 local set_hl = function(tbl)
 	for n, v in pairs(tbl) do
-		vim.fn.sign_define(n, { numhl = n })
+		vim.fn.sign_define(n, { text = '', numhl = n })
 		if vim.fn.hlexists(n) == 0 then vim.api.nvim_set_hl(0, n, v) end
 	end
 end
